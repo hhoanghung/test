@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nhập thông tin Ô tô</title>
+    <style>
+        /* Reset CSS */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #f7f9fc;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 1.8em;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        form {
+            width: 100%;
+            max-width: 400px;
+            padding: 20px;
+            background: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: box-shadow 0.3s;
+        }
+
+        form:hover {
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 8px;
+        }
+
+        input[type="text"],
+        input[type="number"] {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1em;
+            background-color: #f9f9f9;
+            transition: background-color 0.3s, border 0.3s;
+        }
+
+        input[type="text"]:focus,
+        input[type="number"]:focus {
+            background-color: #fff;
+            border: 1px solid #007bff;
+            outline: none;
+        }
+
+        input[type="submit"] {
+            width: 100%;
+            padding: 12px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            font-size: 1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+
+        .error {
+            color: red;
+            font-size: 0.875em;
+            margin-top: -15px;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        /* Mobile responsive adjustments */
+        @media (max-width: 480px) {
+            form {
+                padding: 15px;
+            }
+
+            h1 {
+                font-size: 1.5em;
+            }
+        }
+    </style>
+    <script>
+        function validateForm() {
+            const maXe = document.getElementById('MaXe').value.trim();
+            const name = document.getElementById('Name').value.trim();
+            const price = document.getElementById('Price').value;
+            const year = document.getElementById('Year').value;
+            const brand = document.getElementById('Brand').value.trim();
+
+            let isValid = true;
+
+            // Reset lỗi
+            document.getElementById('nameError').textContent = '';
+            document.getElementById('priceError').textContent = '';
+            document.getElementById('yearError').textContent = '';
+
+            // Kiểm tra trường trống
+            if (!maXe || !name || !price || !year || !brand) {
+                alert('Vui lòng điền đầy đủ thông tin');
+                return false;
+            }
+
+            // Kiểm tra tên chỉ chứa chữ cái và khoảng trắng
+            if (!/^[a-zA-Z\s]+$/.test(name)) {
+                document.getElementById('nameError').textContent = 'Tên phải là chữ cái và khoảng trắng';
+                isValid = false;
+            }
+
+            // Kiểm tra giá là số dương
+            if (isNaN(price) || price <= 0) {
+                document.getElementById('priceError').textContent = 'Giá phải là số dương';
+                isValid = false;
+            }
+
+            // Kiểm tra năm trong khoảng 1980-2024
+            if (isNaN(year) || year < 1980 || year > 2024) {
+                document.getElementById('yearError').textContent = 'Năm sản xuất phải từ 1980 đến 2024';
+                isValid = false;
+            }
+
+            return isValid;
+        }
+    </script>
+</head>
+<body>
+<h1>Nhập thông tin Ô tô</h1>
+<form action="/cars" method="POST" onsubmit="return validateForm()">
+    <label for="MaXe">Mã Xe:</label>
+    <input type="text" id="MaXe" name="MaXe" required>
+
+    <label for="Name">Tên:</label>
+    <input type="text" id="Name" name="Name" required>
+    <div id="nameError" class="error"></div>
+
+    <label for="Price">Giá:</label>
+    <input type="number" id="Price" name="Price" required>
+    <div id="priceError" class="error"></div>
+
+    <label for="Year">Năm sản xuất:</label>
+    <input type="number" id="Year" name="Year" required>
+    <div id="yearError" class="error"></div>
+
+    <label for="Brand">Hãng:</label>
+    <input type="text" id="Brand" name="Brand" required>
+
+    <input type="submit" value="Tạo Ô tô">
+</form>
+</body>
+</html>
